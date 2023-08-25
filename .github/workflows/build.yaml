@@ -1,0 +1,21 @@
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v3
+    - run: |
+        git clone https://eaas.dev/docker2image
+        docker build -t "$GITHUB_REPOSITORY" .
+        docker2image/docker2appimage "$GITHUB_REPOSITORY"
+    - uses: actions/upload-artifact@v3
+      with:
+        path: "*.AppImage"
+    - uses: softprops/action-gh-release@v1
+      with:
+        files: "*.AppImage"
+        tag_name: ${{github.ref_name}}-nightly
+        prerelease: true
+        target_commitish: ${{github.sha}}
