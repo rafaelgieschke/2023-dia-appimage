@@ -9,7 +9,7 @@ jobs:
     - run: |
         git clone https://eaas.dev/docker2image
         docker build -t "$GITHUB_REPOSITORY" .
-        docker2image/docker2appimage "$GITHUB_REPOSITORY"
+        docker2image/docker2appimage "$GITHUB_REPOSITORY" dia~"$GITHUB_REPOSITORY".AppImage
     - uses: actions/upload-artifact@v3
       with:
         path: "*.AppImage"
